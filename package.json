@@ -1,5 +1,5 @@
 {
-  "name": "basic-chat-app",
+  "name": "scalable-chat-app",
   "private": true,
   "scripts": {
     "build": "turbo run build",
