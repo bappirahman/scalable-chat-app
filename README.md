@@ -64,11 +64,6 @@ server
 
 3. **Set up environment variables**
 
-   ```bash
-   # Copy environment files and configure them
-   cp apps/reference/server/.env.example apps/reference/server/.env
-   ```
-
    Configure the following variables:
    - `DATABASE_URL`: PostgreSQL connection string
    - `JWT_SECRET`: Secret key for JWT tokens
