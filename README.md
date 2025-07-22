@@ -1,135 +1,231 @@
-# Turborepo starter
+# Scalable Chat App
 
-This Turborepo starter is maintained by the Turborepo core team.
+A modern, scalable real-time chat application built with Next.js, WebSocket, and a microservices architecture. This project features a responsive frontend, robust backend APIs, and real-time messaging capabilities using WebSocket connections.
 
-## Using this example
+## 🏗️ Architecture
 
-Run the following command:
+This is a monorepo built with **Turborepo** and **PNPM workspaces**, featuring:
 
-```sh
-npx create-turbo@latest
-```
+- **Frontend**: Next.js 15 with React 19, TypeScript, and Tailwind CSS
+- **Backend**: Express.js server with TypeScript
+- **Database**: PostgreSQL with Prisma ORM
+- **Real-time Communication**: WebSocket servers for scalable messaging
+- **Authentication**: OAuth integration (Google)
+- **UI Components**: Radix UI and custom component library
 
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+## 📁 Project Structure
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+scalable-chat-app/
+├── apps/
+│   ├── frontend/           # Next.js
+server
+│   └── user-ws/           # User WebSocket connection handler
+├── packages/
+│   ├── eslint-config/     # Shared ESLint configurations
+│   ├── typescript-config/ # Shared TypeScript configurations
+│   └── ui/                # Shared UI component library
+└── prisma/                # Database schema and migrations
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## ✨ Features
 
+- 🔐 **Authentication**: OAuth login with Google
+- 💬 **Real-time Chat**: Instant messaging with WebSocket
+- 🏠 **Chat Groups**: Create and join chat rooms with passcodes
+- 📁 **File Sharing**: Support for file uploads in chat
+- 📱 **Responsive Design**: Mobile-first responsive UI
+- ⚡ **High Performance**: Optimized with Next.js 15 and Turbopack
+- 🔒 **Secure**: JWT authentication and secure data handling
+- 🎨 **Modern UI**: Beautiful interface with Tailwind CSS and Radix UI
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18 or higher
+- PNPM 9.0.0 or higher
+- PostgreSQL database
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/bappirahman/scalable-chat-app.git
+   cd scalable-chat-app
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Set up environment variables**
+
+   ```bash
+   # Copy environment files and configure them
+   cp apps/reference/server/.env.example apps/reference/server/.env
+   ```
+
+   Configure the following variables:
+   - `DATABASE_URL`: PostgreSQL connection string
+   - `JWT_SECRET`: Secret key for JWT tokens
+   - `GOOGLE_CLIENT_ID`: Google OAuth client ID
+   - `GOOGLE_CLIENT_SECRET`: Google OAuth client secret
+
+4. **Set up the database**
+
+   ```bash
+   cd apps/reference/server
+   npx prisma generate
+   npx prisma db push
+   ```
+
+5. **Start the development servers**
+
+   ```bash
+   # Start all services in development mode
+   pnpm dev
+   ```
+
+   Or start services individually:
+
+   ```bash
+   # Frontend (http://localhost:3000)
+   cd apps/frontend && pnpm dev
+
+   # Backend API
+   cd apps/reference/server && pnpm dev
+
+   # WebSocket servers
+   cd apps/user-ws && node index.js
+   cd apps/relayer-ws && node index.js
+   ```
+
+## 🛠️ Development
+
+### Available Scripts
+
+- `pnpm dev` - Start all applications in development mode
+- `pnpm build` - Build all applications for production
+- `pnpm lint` - Run ESLint across all packages
+- `pnpm format` - Format code with Prettier
+- `pnpm check-types` - Run TypeScript type checking
+
+### Database Management
+
+```bash
+# Generate Prisma client
+npx prisma generate
+
+# Push schema changes to database
+npx prisma db push
+
+# Create and apply migrations
+npx prisma migrate dev
+
+# Open Prisma Studio
+npx prisma studio
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+## 🏗️ Tech Stack
+
+### Frontend
+
+- **Next.js 15** - React framework with App Router
+- **React 19** - Latest React features
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Accessible component primitives
+- **Lucide React** - Beautiful icons
+
+### Backend
+
+- **Express.js** - Web application framework
+- **TypeScript** - Type-safe server development
+- **Prisma** - Modern database toolkit
+- **PostgreSQL** - Robust relational database
+- **JWT** - Secure authentication
+- **Socket.IO** - Real-time communication
+- **Redis** - Caching and session management
+
+### Development Tools
+
+- **Turborepo** - High-performance build system
+- **PNPM** - Fast, disk space efficient package manager
+- **ESLint** - Code linting and quality
+- **Prettier** - Code formatting
+
+## 📊 Database Schema
+
+The application uses the following main entities:
+
+- **Users**: User accounts with OAuth authentication
+- **ChatGroup**: Chat rooms with passcode protection
+- **GroupUsers**: Members of chat groups
+- **Chats**: Individual messages with file support
+
+## 🔌 API Endpoints
+
+### Authentication
+
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+- `GET /api/auth/user` - Get current user
+
+### Chat Groups
+
+- `GET /api/chat-groups` - List user's chat groups
+- `POST /api/chat-groups` - Create new chat group
+- `POST /api/chat-groups/join` - Join chat group with passcode
+
+### Messages
+
+- `GET /api/chats/:groupId` - Get chat history
+- `POST /api/chats` - Send message
+- WebSocket events for real-time messaging
+
+## 🚀 Deployment
+
+### Production Build
+
+```bash
+# Build all applications
+pnpm build
+
+# Start production servers
+pnpm start
 ```
 
-### Develop
+### Environment Variables for Production
 
-To develop all apps and packages, run the following command:
+Make sure to set the following environment variables in your production environment:
 
-```
-cd my-turborepo
+- `DATABASE_URL`
+- `JWT_SECRET`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `NEXTAUTH_URL`
+- `NEXTAUTH_SECRET`
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+## 📝 Contributing
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## 📄 License
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+## 🤝 Support
 
-### Remote Caching
+If you have any questions or need help with setup, please open an issue or contact the maintainers.
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+---
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+Built with ❤️ using modern web technologies
