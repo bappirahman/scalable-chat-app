@@ -1,6 +1,8 @@
-import { User } from "@/types/user";
+import { CustomSession } from "@/types/session";
+import { CustomUser } from "@/types/user";
 import { Session } from "inspector/promises";
-import { AuthOptions } from "next-auth";
+import { AuthOptions, User } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
@@ -8,14 +10,12 @@ export const authOptions: AuthOptions = {
     signIn: "/",
   },
   callbacks: {
-    async session({ session, user, token }) {
-      return session;
+    async signIn({ user, account }) {
+      return true;
     },
-    async jwt({ token, user }) {
-      if (user) {
-        token.user = user;
-      }
-      return token;
+    async session({ session, token, user }) {
+      session.user = token.user as CustomUser;
+      return session;
     },
   },
   providers: [

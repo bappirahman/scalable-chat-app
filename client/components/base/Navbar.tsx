@@ -3,7 +3,8 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import LoginModal from "../auth/LoginModal";
-export default function Navbar({ user }: { user: {} }) {
+import { CustomUser } from "@/types/user";
+export default function Navbar({ user }: { user?: CustomUser | undefined }) {
   return (
     <nav className="p-6 flex justify-between items-center bg-white shadow-sm">
       <h1 className="text-xl md:text-2xl font-extrabold">QuickChat</h1>

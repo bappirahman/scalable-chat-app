@@ -1,8 +1,8 @@
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  image: string;
+export interface CustomUser {
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
   provider?: string;
-  token: string;
+  token?: string;
 }
