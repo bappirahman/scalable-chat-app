@@ -1,8 +1,9 @@
 import { Pool } from '@neondatabase/serverless';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { drizzle, NeonDatabase } from 'drizzle-orm/neon-serverless';
+import { drizzle } from 'drizzle-orm/neon-serverless';
 import * as schema from './schema';
+import { DrizzleDB } from './type/drizzle';
 
 export const DRIZZLE_INJECTION_TOKEN = Symbol('drizzle-injection-token');
 
@@ -16,7 +17,7 @@ export const DRIZZLE_INJECTION_TOKEN = Symbol('drizzle-injection-token');
         const pool = new Pool({
           connectionString: databaseURL,
         });
-        return drizzle(pool, { schema }) as NeonDatabase<typeof schema>;
+        return drizzle(pool, { schema }) as DrizzleDB;
       },
     },
   ],

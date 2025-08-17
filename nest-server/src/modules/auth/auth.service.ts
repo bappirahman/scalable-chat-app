@@ -1,7 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { DRIZZLE_INJECTION_TOKEN } from '../db/db.module';
+import { type DrizzleDB } from '../db/type/drizzle';
 
 @Injectable()
 export class AuthService {
+  constructor(@Inject(DRIZZLE_INJECTION_TOKEN) private db: DrizzleDB) {}
+  
+  async signIn(signInDto) {
+    try {
+      const findUser = await this.db.user.findUnique()
+    }
+  }
   //  try {
   //     let findUser = await prisma.user.findUnique({
   //       where: {
