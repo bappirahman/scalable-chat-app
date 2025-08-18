@@ -1,14 +1,35 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { DRIZZLE_INJECTION_TOKEN } from '../db/db.module';
 import { type DrizzleDB } from '../db/type/drizzle';
+import { user } from '../db/schema';
+import { eq } from 'drizzle-orm';
+import { SignInDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject(DRIZZLE_INJECTION_TOKEN) private db: DrizzleDB) {}
-  
-  async signIn(signInDto) {
+  constructor(
+    @Inject(DRIZZLE_INJECTION_TOKEN) private readonly db: DrizzleDB,
+  ) {}
+
+  async signIn(signInDto: SignInDto) {
     try {
-      const findUser = await this.db.user.findUnique()
+      console.log('starting block');
+      const findUser = await this.db
+        .select()
+        .from(user)
+        .where(eq(user.email, signInDto.email))
+        .limit(1);
+      console.log('found the user');
+      if (!findUser) {
+        this.db.insert(user).values(signInDto).returning();
+      }
+      return findUser;
+    } catch (error) {
+      console.error('SignIn error:', error);
+      throw new HttpException(
+        'Authentication failed',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
   //  try {

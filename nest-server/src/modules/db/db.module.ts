@@ -1,6 +1,6 @@
 import { Pool } from '@neondatabase/serverless';
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import * as schema from './schema';
 import { DrizzleDB } from './type/drizzle';
@@ -8,6 +8,7 @@ import { DrizzleDB } from './type/drizzle';
 export const DRIZZLE_INJECTION_TOKEN = Symbol('drizzle-injection-token');
 
 @Module({
+  imports: [ConfigModule],
   providers: [
     {
       provide: DRIZZLE_INJECTION_TOKEN,
