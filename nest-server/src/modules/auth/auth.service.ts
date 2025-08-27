@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import jwt from 'jsonwebtoken';
 import { DRIZZLE_INJECTION_TOKEN } from '../db/db.module';
 import { type DrizzleDB } from '../db/type/drizzle';
 import { user } from '../db/schema';
@@ -13,17 +14,33 @@ export class AuthService {
 
   async signIn(signInDto: SignInDto) {
     try {
-      console.log('starting block');
-      const findUser = await this.db
+      let findUser = await this.db
         .select()
         .from(user)
         .where(eq(user.email, signInDto.email))
         .limit(1);
       console.log('found the user');
-      if (!findUser) {
-        this.db.insert(user).values(signInDto).returning();
+      if (!findUser || findUser.length === 0) {
+        findUser = await this.db.insert(user).values(signInDto).returning();
       }
-      return findUser;
+      let jwtPayload = {
+        name: signInDto.name,
+        email: signInDto.email,
+        id: findUser[0].id,
+      };
+      if (!process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET is not defined in environment variables');
+      }
+      const token = jwt.sign(jwtPayload, process.env.JWT_SECRET as string, {
+        expiresIn: '365d',
+      });
+      return {
+        message: 'Logged in successfully',
+        user: {
+          ...findUser[0],
+          token: `Bearer ${token}`,
+        },
+      };
     } catch (error) {
       console.error('SignIn error:', error);
       throw new HttpException(

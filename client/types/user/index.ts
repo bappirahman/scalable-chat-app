@@ -6,3 +6,8 @@ export interface CustomUser {
   provider?: string;
   token?: string;
 }
+
+export interface UserAvatarProps {
+  name?: string | null;
+  image?: string | null;
+}

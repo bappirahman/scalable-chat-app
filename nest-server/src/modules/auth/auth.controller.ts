@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Request } from '@nestjs/common';
 import jwt from 'jsonwebtoken';
 import prisma from 'prisma';
 import { SignInDto } from './dto/auth.dto';
@@ -8,7 +8,8 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('signin')
-  async signIn(@Body() signInDto: SignInDto) {
+  async signIn(@Request() req: any) {
+    const signInDto: SignInDto = req.body;
     return this.authService.signIn(signInDto);
   }
 }
